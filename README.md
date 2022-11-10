@@ -1,5 +1,5 @@
 # chapappback
-Back-end part for chat app
+Full chat app
 
 
 You can check demo here:
