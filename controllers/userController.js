@@ -3,6 +3,8 @@ const User = require('../model/userModal');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 const path = require('path');
+// const jwt = require('jsonwebtoken');
+const userHelpers = require('../helpers/UserHelpers');
 
 class UserController {
     async registration(req, res, next) {
@@ -27,7 +29,8 @@ class UserController {
             let fileName = uuid.v4() + '.' + avatar.mimetype.split('/')[1];
             await avatar.mv(path.resolve(__dirname, '..', 'static', fileName));
             const hashedPassword = await bcrypt.hash(password, 10);
-            await User.create({
+
+            const userToCreate = {
                 id: nickName,
                 firstName,
                 lastName,
@@ -36,13 +39,34 @@ class UserController {
                 email,
                 number,
                 dateOfBirthday,
-                password: hashedPassword,
                 gender,
                 languages: languages,
                 avatar: fileName,
                 status: 'online',
+            };
+
+            // const accessToken = jwt.sign(
+            //     { ...userToCreate },
+            //     process.env.ACCESS_TOKEN_SECRET,
+            //     { expiresIn: '15s' }
+            // );
+            // const refreshToken = jwt.sign(
+            //     { ...userToCreate },
+            //     process.env.REFRESH_TOKEN_SECRET,
+            //     { expiresIn: '1d' }
+            // );
+
+            // res.cookie('refreshToken', refreshToken, {
+            //     httpOnly: true,
+            //     maxAge: 24 * 60 * 60 * 1000,
+            // });
+            await User.create({
+                ...userToCreate,
+                password: hashedPassword,
+                // refresh_token: refreshToken,
             });
             return res.json({ status: true });
+            // return res.json({ status: true, accessToken });
         } catch (e) {
             return next(ApiError.badRequest(e.message));
         }
@@ -56,10 +80,7 @@ class UserController {
                     ApiError.badRequest('Incorrect username or password')
                 );
             }
-            const userNameCheck = await User.findOneAndUpdate(
-                { nickName },
-                { status: 'online' }
-            );
+            const userNameCheck = await User.findOne({ nickName });
             if (!userNameCheck) {
                 return next(ApiError.badRequest('User doesnt exist'));
             }
@@ -70,7 +91,50 @@ class UserController {
             if (!isPasswordCorrect) {
                 return next(ApiError.badRequest('Incorrect password'));
             }
+
+            // const accessToken = jwt.sign(
+            //     { ...userNameCheck },
+            //     process.env.ACCESS_TOKEN_SECRET,
+            //     { expiresIn: '15s' }
+            // );
+            // const refreshToken = jwt.sign(
+            //     { ...userNameCheck },
+            //     process.env.REFRESH_TOKEN_SECRET,
+            //     { expiresIn: '1d' }
+            // );
+
+            await User.findOneAndUpdate(
+                { nickName },
+                // { status: 'online', refresh_token: refreshToken }
+                { status: 'online' }
+            );
+
+            // res.cookie('refreshToken', refreshToken, {
+            //     httpOnly: true,
+            //     maxAge: 24 * 60 * 60 * 1000,
+            // });
+
             return res.json({ status: true });
+            // return res.json({ status: true, accessToken });
+        } catch (error) {
+            return next(ApiError.badRequest(error.message));
+        }
+    }
+
+    async logout(req, res, next) {
+        try {
+            const refreshToken = req.cookies.refreshToken;
+            if (!refreshToken) return res.sendStatus(204);
+            const userNameCheck = await User.findOne({
+                refresh_token: refreshToken,
+            });
+            if (!userNameCheck) return res.sendStatus(204);
+            await User.findOneAndUpdate(
+                { refresh_token: refreshToken },
+                { status: 'offline', refresh_token: null }
+            );
+            res.clearCookie('refreshToken');
+            return res.sendStatus(200);
         } catch (error) {
             return next(ApiError.badRequest(error.message));
         }
@@ -98,20 +162,8 @@ class UserController {
             }
             let usersWithoutPassword = [];
             for (let user of users) {
-                const userWithoutPassword = {
-                    avatar: user.avatar,
-                    dateOfBirthday: user.dateOfBirthday,
-                    email: user.email,
-                    firstName: user.firstName,
-                    gender: user.gender,
-                    id: user.id,
-                    languages: user.languages,
-                    lastName: user.lastName,
-                    location: user.location,
-                    nickName: user.nickName,
-                    number: user.number,
-                    status: user.status,
-                };
+                const userWithoutPassword =
+                    userHelpers.createUserWithoutPassword(user);
                 usersWithoutPassword.push(userWithoutPassword);
             }
             return res.json(usersWithoutPassword);
