@@ -4,19 +4,18 @@ const router = new Router();
 const messageController = require('../controllers/messageController');
 const verifyToken = require('../midleware/VerifyToken');
 
-router.post('/all', messageController.getAll);
+router.post('/all', verifyToken.verifyToken, messageController.getAll);
 router.post(
     '/update/status',
-    // verifyToken.verifyToken,
+    verifyToken.verifyToken,
     messageController.updateReadStatus
 );
 router.post(
     '/unread',
-    // verifyToken.verifyToken,
+    verifyToken.verifyToken,
     messageController.getUnreadMessages
 );
-router.post('/last', messageController.getLast);
-// router.post('/last', verifyToken.verifyToken, messageController.getLast);
-router.post('/create', messageController.create);
+router.post('/last', verifyToken.verifyToken, messageController.getLast);
+router.post('/create', verifyToken.verifyToken, messageController.create);
 
 module.exports = router;

@@ -56,9 +56,9 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        // refresh_token: {
-        //     type: String,
-        // },
+        refresh_token: {
+            type: String,
+        },
     },
     { timestamps: true }
 );

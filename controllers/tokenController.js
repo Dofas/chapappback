@@ -7,6 +7,7 @@ class TokenController {
     async refreshToken(req, res, next) {
         try {
             const refreshToken = req.cookies.refreshToken;
+            console.log('refreshToken', refreshToken);
             if (!refreshToken) return res.sendStatus(401);
 
             const user = await User.find({ refresh_token: refreshToken });
@@ -21,7 +22,7 @@ class TokenController {
                         user[0]
                     );
                     const accessToken = jwt.sign(
-                        { ...userToReturn },
+                        { nickName: userToReturn.nickName },
                         process.env.ACCESS_TOKEN_SECRET,
                         {
                             expiresIn: '15s',

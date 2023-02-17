@@ -3,7 +3,7 @@ const User = require('../model/userModal');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 const path = require('path');
-// const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const userHelpers = require('../helpers/UserHelpers');
 
 class UserController {
@@ -22,6 +22,7 @@ class UserController {
                 languages,
             } = req.body;
             const { avatar } = req.files;
+            console.log('parsed:', JSON.parse(languages));
             const userNameCheck = await User.findOne({ nickName });
             if (userNameCheck) {
                 return next(ApiError.badRequest('User already exists'));
@@ -45,28 +46,27 @@ class UserController {
                 status: 'online',
             };
 
-            // const accessToken = jwt.sign(
-            //     { ...userToCreate },
-            //     process.env.ACCESS_TOKEN_SECRET,
-            //     { expiresIn: '15s' }
-            // );
-            // const refreshToken = jwt.sign(
-            //     { ...userToCreate },
-            //     process.env.REFRESH_TOKEN_SECRET,
-            //     { expiresIn: '1d' }
-            // );
+            const accessToken = jwt.sign(
+                { nickName },
+                process.env.ACCESS_TOKEN_SECRET,
+                { expiresIn: '15s' }
+            );
+            const refreshToken = jwt.sign(
+                { nickName },
+                process.env.REFRESH_TOKEN_SECRET,
+                { expiresIn: '1d' }
+            );
 
-            // res.cookie('refreshToken', refreshToken, {
-            //     httpOnly: true,
-            //     maxAge: 24 * 60 * 60 * 1000,
-            // });
+            res.cookie('refreshToken', refreshToken, {
+                httpOnly: true,
+                maxAge: 24 * 60 * 60 * 1000,
+            });
             await User.create({
                 ...userToCreate,
                 password: hashedPassword,
-                // refresh_token: refreshToken,
+                refresh_token: refreshToken,
             });
-            return res.json({ status: true });
-            // return res.json({ status: true, accessToken });
+            return res.json({ status: true, accessToken });
         } catch (e) {
             return next(ApiError.badRequest(e.message));
         }
@@ -74,6 +74,7 @@ class UserController {
 
     async login(req, res, next) {
         try {
+            console.log('in login');
             const { nickName, password } = req.body;
             if (!nickName || !password) {
                 return next(
@@ -92,30 +93,28 @@ class UserController {
                 return next(ApiError.badRequest('Incorrect password'));
             }
 
-            // const accessToken = jwt.sign(
-            //     { ...userNameCheck },
-            //     process.env.ACCESS_TOKEN_SECRET,
-            //     { expiresIn: '15s' }
-            // );
-            // const refreshToken = jwt.sign(
-            //     { ...userNameCheck },
-            //     process.env.REFRESH_TOKEN_SECRET,
-            //     { expiresIn: '1d' }
-            // );
+            const accessToken = jwt.sign(
+                { nickName },
+                process.env.ACCESS_TOKEN_SECRET,
+                { expiresIn: '15s' }
+            );
+            const refreshToken = jwt.sign(
+                { nickName },
+                process.env.REFRESH_TOKEN_SECRET,
+                { expiresIn: '1d' }
+            );
 
             await User.findOneAndUpdate(
                 { nickName },
-                // { status: 'online', refresh_token: refreshToken }
-                { status: 'online' }
+                { status: 'online', refresh_token: refreshToken }
             );
 
-            // res.cookie('refreshToken', refreshToken, {
-            //     httpOnly: true,
-            //     maxAge: 24 * 60 * 60 * 1000,
-            // });
+            res.cookie('refreshToken', refreshToken, {
+                httpOnly: true,
+                maxAge: 24 * 60 * 60 * 1000,
+            });
 
-            return res.json({ status: true });
-            // return res.json({ status: true, accessToken });
+            return res.json({ status: true, accessToken });
         } catch (error) {
             return next(ApiError.badRequest(error.message));
         }
@@ -143,6 +142,7 @@ class UserController {
     async check(req, res, next) {
         try {
             const nickName = req.params.nickName;
+            console.log('check', nickName);
             const user = await User.findOne({ nickName });
             if (!user) {
                 return res.json({ status: false });
