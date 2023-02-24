@@ -11,6 +11,7 @@ class TokenController {
             if (!refreshToken) return res.sendStatus(401);
 
             const user = await User.find({ refresh_token: refreshToken });
+            console.log('user', user)
             if (!user[0]) return res.sendStatus(403);
 
             jwt.verify(
@@ -25,7 +26,7 @@ class TokenController {
                         { nickName: userToReturn.nickName },
                         process.env.ACCESS_TOKEN_SECRET,
                         {
-                            expiresIn: '15s',
+                            expiresIn: '45s',
                         }
                     );
                     res.json({ status: true, accessToken });

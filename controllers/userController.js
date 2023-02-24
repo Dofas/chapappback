@@ -22,7 +22,6 @@ class UserController {
                 languages,
             } = req.body;
             const { avatar } = req.files;
-            console.log('parsed:', JSON.parse(languages));
             const userNameCheck = await User.findOne({ nickName });
             if (userNameCheck) {
                 return next(ApiError.badRequest('User already exists'));
@@ -49,7 +48,7 @@ class UserController {
             const accessToken = jwt.sign(
                 { nickName },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '15s' }
+                { expiresIn: '45s' }
             );
             const refreshToken = jwt.sign(
                 { nickName },
@@ -74,7 +73,6 @@ class UserController {
 
     async login(req, res, next) {
         try {
-            console.log('in login');
             const { nickName, password } = req.body;
             if (!nickName || !password) {
                 return next(
@@ -96,7 +94,7 @@ class UserController {
             const accessToken = jwt.sign(
                 { nickName },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '15s' }
+                { expiresIn: '45s' }
             );
             const refreshToken = jwt.sign(
                 { nickName },
@@ -113,6 +111,8 @@ class UserController {
                 httpOnly: true,
                 maxAge: 24 * 60 * 60 * 1000,
             });
+
+            console.log('login cookie', res.cookies, refreshToken)
 
             return res.json({ status: true, accessToken });
         } catch (error) {

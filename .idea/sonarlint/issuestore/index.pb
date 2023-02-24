@@ -26,3 +26,9 @@ T
 $midleware/ErrorHandlingMiddleware.js,b/b/bbdcfbe6ea1e11c45c05aed28c98a05981492a05
 C
 model/groupModal.js,5/a/5ae3dd14a79407ffb306ef11d64b8e9c20c157ff
+G
+routes/messageRouter.js,d/4/d464836a9b98b8c3d3552db0df3271db6f8a8107
+D
+routes/teamRouter.js,9/1/912e97645080b9660d5edd41cda7c552982af6ec
+E
+routes/groupRouter.js,6/d/6d08cc08a61d187164f6565077135e558786b7ef
