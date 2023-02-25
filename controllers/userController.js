@@ -38,7 +38,7 @@ class UserController {
                 dateOfBirthday,
                 password: hashedPassword,
                 gender,
-                languages: JSON.parse(languages),
+                languages: languages,
                 avatar: fileName,
                 status: 'online',
             });
