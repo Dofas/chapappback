@@ -8,13 +8,16 @@ const errorHandler = require('./midleware/ErrorHandlingMiddleware');
 const router = require('./routes/index');
 const socket = require('socket.io');
 const axios = require('axios');
+const cookieParser = require('cookie-parser');
+const User = require('./model/userModal');
 
 const PORT = process.env.PORT || 5000;
 
 const app = express();
 dotenv.config();
 
-app.use(cors());
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, 'static')));
 app.use(fileUpload({}));
@@ -124,11 +127,10 @@ io.on('connection', (socket) => {
                 (onlineUser) => Object.keys(onlineUser)[0] === data.nickName
             );
             if (isUserStillActive < 0) {
-                await axios.post(
-                    `http://localhost:${PORT}/api/user/status/update/${data.nickName}`,
-                    data
+                await User.findOneAndUpdate(
+                    { nickName: data.nickName },
+                    { status: data.status }
                 );
-
                 io.sockets.emit('upd-status', data);
             }
         }
@@ -160,12 +162,10 @@ io.on('connection', (socket) => {
             (onlineUser) => Object.keys(onlineUser)[0] === data.nickName
         );
         if (isUserStillActive < 0 && data?.nickName) {
-            await axios
-                .post(
-                    `http://localhost:${PORT}/api/user/status/update/${data.nickName}`,
-                    data
-                )
-                .catch((e) => console.log(e.message));
+            await User.findOneAndUpdate(
+                { nickName: data.nickName },
+                { status: data.status }
+            );
             io.sockets.emit('upd-status', data);
         }
     });
