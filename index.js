@@ -7,7 +7,6 @@ const fileUpload = require('express-fileupload');
 const errorHandler = require('./midleware/ErrorHandlingMiddleware');
 const router = require('./routes/index');
 const socket = require('socket.io');
-const axios = require('axios');
 const cookieParser = require('cookie-parser');
 const User = require('./model/userModal');
 
@@ -16,16 +15,16 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 dotenv.config();
 
-app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(cookieParser());
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, 'static')));
 app.use(fileUpload({}));
 app.use(errorHandler);
 app.use('/api', router);
 
-app.get('/', (req, res) => {
-    res.status(200).json({ message: 'Working!' });
+app.get('/', async (req, res) => {
+    res.status(200).json({ users: 'works' });
 });
 
 mongoose

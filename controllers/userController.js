@@ -58,8 +58,9 @@ class UserController {
 
             res.cookie('refreshToken', refreshToken, {
                 httpOnly: true,
-                maxAge: 24 * 60 * 60 * 1000,
+                maxAge: 24 * 60 * 1000,
             });
+
             await User.create({
                 ...userToCreate,
                 password: hashedPassword,
@@ -109,7 +110,7 @@ class UserController {
 
             res.cookie('refreshToken', refreshToken, {
                 httpOnly: true,
-                maxAge: 24 * 60 * 60 * 1000,
+                maxAge: 24 * 60 * 1000,
             });
 
             return res.json({ status: true, accessToken });
