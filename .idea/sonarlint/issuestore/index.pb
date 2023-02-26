@@ -20,8 +20,6 @@ A
 package-lock.json,f/a/fa288d1472d29beccb489a676f68739ad365fc47
 M
 controllers/teamController.js,5/6/569ee1c64e18ef85920e307dedecae5746b64a6e
-F
-helpers/UserHelpers.js,2/5/25970dad6fec9478f77217d3dd9857aff3777296
 T
 $midleware/ErrorHandlingMiddleware.js,b/b/bbdcfbe6ea1e11c45c05aed28c98a05981492a05
 C
@@ -32,3 +30,5 @@ D
 routes/teamRouter.js,9/1/912e97645080b9660d5edd41cda7c552982af6ec
 E
 routes/groupRouter.js,6/d/6d08cc08a61d187164f6565077135e558786b7ef
+A
+error/ApiError.js,9/c/9c472a46b2ad6874b069b31f2c32ddf98d961907

@@ -9,7 +9,7 @@ const router = require('./routes/index');
 const socket = require('socket.io');
 const axios = require('axios');
 const cookieParser = require('cookie-parser');
-const verifyToken = require('./midleware/VerifyToken');
+const User = require('./model/userModal');
 
 const PORT = process.env.PORT || 5000;
 
@@ -23,7 +23,6 @@ app.use(express.static(path.resolve(__dirname, 'static')));
 app.use(fileUpload({}));
 app.use(errorHandler);
 app.use('/api', router);
-// app.use(verifyToken.verifyToken);
 
 app.get('/', (req, res) => {
     res.status(200).json({ message: 'Working!' });
@@ -128,11 +127,10 @@ io.on('connection', (socket) => {
                 (onlineUser) => Object.keys(onlineUser)[0] === data.nickName
             );
             if (isUserStillActive < 0) {
-                await axios.post(
-                    `http://localhost:${PORT}/api/user/status/update/${data.nickName}`,
-                    data
+                await User.findOneAndUpdate(
+                    { nickName: data.nickName },
+                    { status: data.status }
                 );
-
                 io.sockets.emit('upd-status', data);
             }
         }
@@ -164,12 +162,10 @@ io.on('connection', (socket) => {
             (onlineUser) => Object.keys(onlineUser)[0] === data.nickName
         );
         if (isUserStillActive < 0 && data?.nickName) {
-            await axios
-                .post(
-                    `http://localhost:${PORT}/api/user/status/update/${data.nickName}`,
-                    data
-                )
-                .catch((e) => console.log(e.message));
+            await User.findOneAndUpdate(
+                { nickName: data.nickName },
+                { status: data.status }
+            );
             io.sockets.emit('upd-status', data);
         }
     });

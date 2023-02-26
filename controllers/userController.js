@@ -112,8 +112,6 @@ class UserController {
                 maxAge: 24 * 60 * 60 * 1000,
             });
 
-            console.log('login cookie', res.cookies, refreshToken)
-
             return res.json({ status: true, accessToken });
         } catch (error) {
             return next(ApiError.badRequest(error.message));
@@ -142,7 +140,6 @@ class UserController {
     async check(req, res, next) {
         try {
             const nickName = req.params.nickName;
-            console.log('check', nickName);
             const user = await User.findOne({ nickName });
             if (!user) {
                 return res.json({ status: false });

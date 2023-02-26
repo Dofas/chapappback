@@ -7,11 +7,9 @@ class TokenController {
     async refreshToken(req, res, next) {
         try {
             const refreshToken = req.cookies.refreshToken;
-            console.log('refreshToken', refreshToken);
             if (!refreshToken) return res.sendStatus(401);
 
             const user = await User.find({ refresh_token: refreshToken });
-            console.log('user', user)
             if (!user[0]) return res.sendStatus(403);
 
             jwt.verify(
