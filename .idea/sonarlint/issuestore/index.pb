@@ -5,8 +5,6 @@ E
 model/messageModal.js,8/0/807ccbaec312c8a58e4fcc5a89d8af65693670b8
 R
 "controllers/teamController.spec.js,b/4/b4ab1221f49c5f80e96861f6162fa3cb9af853ef
-B
-model/teamModal.js,f/6/f6f70ec398c8eb1e0faf623848cef50349362cbb
 :
 
 .gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
@@ -22,8 +20,6 @@ F
 helpers/UserHelpers.js,2/5/25970dad6fec9478f77217d3dd9857aff3777296
 E
 routes/tokenRouter.js,8/6/86b872c71e3b473fdb304f00c9ade98b785cd5b5
-D
-routes/userRouter.js,5/b/5b1b6e54216500f3ed92a547b43ff46420dd5606
 A
 error/ApiError.js,9/c/9c472a46b2ad6874b069b31f2c32ddf98d961907
 G
@@ -32,7 +28,69 @@ D
 routes/teamRouter.js,9/1/912e97645080b9660d5edd41cda7c552982af6ec
 E
 routes/groupRouter.js,6/d/6d08cc08a61d187164f6565077135e558786b7ef
-B
-model/userModal.js,e/a/ea0f5c326b7b5f366cdee324a3ceec6d55dfeb64
 S
 #controllers/groupController.spec.js,2/f/2fb089e7777a55c225848385a6e1957c10ab4b1b
+Q
+!node_modules/nodemon/package.json,4/d/4daa5df1c3679f6a2e18fa7e8348100af86cb3a8
+P
+ node_modules/bcrypt/package.json,d/2/d2839dda79aa29f9068400fb70e80ce049041241
+N
+node_modules/cors/package.json,6/d/6d835a96c96bb699debff2b49ee69aa622a9972d
+P
+ node_modules/dotenv/package.json,1/f/1f00d2941adc6671a7be64f3b8ed8f446b568832
+R
+"node_modules/mongoose/package.json,a/5/a5aa06b2f6dea11ae3844a31ef05740f0d3f4cf7
+S
+#node_modules/socket.io/package.json,b/e/be4dca89b037cdb33c9d7828124744ecf36bbae5
+U
+%node_modules/body-parser/package.json,3/5/35b608f9f59b5588af44bfbfb98f616ea5b72bd0
+U
+%node_modules/@types/cors/package.json,7/7/77475cbe69c845aa31b566ce21067eb990e24760
+U
+%node_modules/@types/node/package.json,a/d/adb69864507780444eb024db542e4ad33fa62fa1
+W
+'node_modules/@types/cookie/package.json,1/a/1a3721abb26cae9cd2e18e3ab2bdce9982115011
+[
++node_modules/@types/whatwg-url/package.json,8/4/846fecb30726fcceeb96bca3f7d60271c3f9cc8a
+T
+$node_modules/ansi-regex/package.json,f/c/fc71f23d4d02011ef20e3a4af4e63c2bfe11be8d
+T
+$node_modules/strip-ansi/package.json,0/e/0e6aa1091c052f9656b256db6b7c8a37789f6d5f
+R
+"node_modules/anymatch/package.json,1/2/12d997bfd8d048bc9b146578b13d1f55113aae50
+c
+3node_modules/@types/webidl-conversions/package.json,6/d/6d81d81be8f92b8506a488a0c9cb8cefe820a896
+N
+node_modules/bson/package.json,a/f/af279608ad8e20f29ae1890fef8d6bb375db225d
+S
+#node_modules/base64-js/package.json,b/3/b3d1d9d93795e7d2996c9d6f49200782599a4552
+Q
+!node_modules/express/package.json,e/7/e78bb73daac9ba23582847218cc09a05a9da81f8
+Q
+!node_modules/ieee754/package.json,0/a/0a04d620062418041ee079c787d5d5d4bf0b4b1f
+[
++node_modules/socket.io-adapter/package.json,8/9/89829747a326f454dcd25d1984d8519375e0b012
+Z
+*node_modules/engine.io-parser/package.json,9/1/914a0a3d2db2d9017fd6a1ee433b861937daf70f
+P
+ node_modules/cookie/package.json,0/b/0b100510e4d27e8046751aaa59c76f4651073811
+P
+ node_modules/buffer/package.json,f/4/f451f049b1fdb9028bd1fd7fdb19059800802221
+f
+6node_modules/@socket.io/component-emitter/package.json,4/3/43ba4875478e5a0c1d05056f5ed43801072b084c
+Z
+*node_modules/socket.io-parser/package.json,9/e/9e88cc463518f9646da34ddf8b5bc132fb35638b
+O
+node_modules/socks/package.json,4/a/4a6d2704ca44e7a1b19c2606d11927df6229c465
+V
+&node_modules/smart-buffer/package.json,b/0/b0ac9a8c9b1a4ff8007343a1f8901a787efef573
+g
+7node_modules/mongodb-connection-string-url/package.json,9/6/9605a79f7f6b585e5d74c768521c1ebb2c6dc15c
+P
+ node_modules/denque/package.json,f/c/fcc22764fca29b3b8911d68c4a4a3949ffe5385e
+Q
+!node_modules/mongodb/package.json,8/0/806af4fe6ab9781391ed23365af21d19332a559a
+N
+node_modules/sift/package.json,5/c/5c22b6091d9e8942e169892cba82fb11433cdc6d
+S
+#node_modules/engine.io/package.json,2/6/26ae96913e36e479046278c3fb1b5b5777174d60
