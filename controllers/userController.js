@@ -20,6 +20,7 @@ class UserController {
                 password,
                 gender,
                 languages,
+                role,
             } = req.body;
             const { avatar } = req.files;
             const userNameCheck = await User.findOne({ nickName });
@@ -43,15 +44,16 @@ class UserController {
                 languages: languages,
                 avatar: fileName,
                 status: 'online',
+                role,
             };
 
             const accessToken = jwt.sign(
-                { nickName },
+                { nickName, role },
                 process.env.ACCESS_TOKEN_SECRET,
                 { expiresIn: '45s' }
             );
             const refreshToken = jwt.sign(
-                { nickName },
+                { nickName, role },
                 process.env.REFRESH_TOKEN_SECRET,
                 { expiresIn: '1d' }
             );
@@ -93,12 +95,12 @@ class UserController {
             }
 
             const accessToken = jwt.sign(
-                { nickName },
+                { nickName, role: userNameCheck.role },
                 process.env.ACCESS_TOKEN_SECRET,
                 { expiresIn: '45s' }
             );
             const refreshToken = jwt.sign(
-                { nickName },
+                { nickName, role: userNameCheck.role },
                 process.env.REFRESH_TOKEN_SECRET,
                 { expiresIn: '1d' }
             );

@@ -11,8 +11,8 @@ class VerifyToken {
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
             if (err) return res.sendStatus(403);
             req.nickName = decoded.nickName;
-            next();
         });
+        next();
     }
 }
 

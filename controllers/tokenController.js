@@ -21,7 +21,10 @@ class TokenController {
                         user[0]
                     );
                     const accessToken = jwt.sign(
-                        { nickName: userToReturn.nickName },
+                        {
+                            nickName: userToReturn.nickName,
+                            role: userToReturn.role,
+                        },
                         process.env.ACCESS_TOKEN_SECRET,
                         {
                             expiresIn: '45s',
